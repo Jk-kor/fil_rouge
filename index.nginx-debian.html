@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Western Toaster Rental - Les Grille-Pains les Plus Rapides de l'Ouest !</title>
+    <style>
+        /* Styles Globaux - Ambiance Far West Modernisée */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f7f3e8; /* Couleur papier vieilli clair */
+            color: #3e2723; /* Marron foncé */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Rockwell', 'Courier New', Courier, monospace; /* Police plus brute */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* En-tête (Hero Section) */
+        header {
+            background-color: #5d4037; /* Marron cuir */
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1531278517226-5b4815a0b7f1?q=80&w=2000'); /* Arrière-plan désert (optionnel) */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(62, 39, 35, 0.7); /* Superposition sombre */
+        }
+
+        header * {
+            position: relative; /* Pour passer au-dessus de la superposition */
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .btn-reservation {
+            background-color: #ff9800; /* Orange shérif */
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+
+        .btn-reservation:hover {
+            background-color: #e68a00;
+        }
+
+        /* Section "Pourquoi Nous ?" (Les Arguments Troll) */
+        #pourquoi {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .grille-arguments {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .argument {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px solid #a1887f; /* Bordure discrète */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .argument h3 {
+            color: #d84315; /* Rouge brûlé */
+            margin-top: 0;
+        }
+
+        /* Section "Nos Modèles" (Les Grille-Pains) */
+        #modeles {
+            background-color: #e0e0e0; /* Gris métal */
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .grille-modeles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .modele {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+
+        .modele:hover {
+            transform: translateY(-5px);
+        }
+
+        .modele img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .modele-info {
+            padding: 20px;
+        }
+
+        .modele-info h3 {
+            margin-top: 0;
+            color: #3e2723;
+        }
+
+        .prix {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2e7d32; /* Vert dollars */
+            margin: 10px 0;
+        }
+
+        /* Section "Témoignages" */
+        #temoignages {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .temoignage {
+            font-style: italic;
+            max-width: 700px;
+            margin: 30px auto;
+            border-left: 5px solid #ff9800;
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        .temoignage-auteur {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            font-style: normal;
+        }
+
+        /* Section "Contact & Réservation" */
+        #contact {
+            background-color: #5d4037;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        #contact h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Pied de page */
+        footer {
+            background-color: #3e2723;
+            color: #a1887f;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>WESTERN TOASTER RENTAL</h1>
+        <p>Le seul service de location de grille-pains certifié "Plus Rapide que Son Ombre".</p>
+        <a href="#contact" class="btn-reservation">Réservez Votre Mustang de la Tartine</a>
+    </header>
+
+    <section id="pourquoi">
+        <h2>Pourquoi Louer Chez Nous, Partner ?</h2>
+        <div class="grille-arguments">
+            <div class="argument">
+                <h3>Vitesse Légendaire</h3>
+                <p>Nos grille-pains sont si rapides que votre pain sera grillé avant même que vous n'ayez eu le temps de dire "Ouf !". Record du monde en 0.8 secondes (tartine légèrement carbonisée, mais c'est le style).</p>
+            </div>
+            <div class="argument">
+                <h3>Livraison par Pigeon Voyageur</h3>
+                <p>Oubliez Chronopost. Nos pigeons voyageurs "Spécial Livraison de Grille-Pain" vous livrent en moins de 24h, directement sur votre rebord de fenêtre. Garantie sans fientes (ou presque).</p>
+            </div>
+            <div class="argument">
+                <h3>Service Après-Vente de Choc</h3>
+                <p>Un problème ? Notre Shérif de la Tartine intervient personnellement pour régler le conflit avec votre appareil. Parfois à coups de revolver, mais le résultat est garanti.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="modeles">
+        <h2>Choisissez Votre Monture</h2>
+        <div class="grille-modeles">
+            <div class="modele">
+                <img src="https://media.discordapp.net/attachments/1479117517409747079/1481681136399945869/Billy.png?ex=69b43297&is=69b2e117&hm=4d833b06ee2861b1d0b1e2169dc1d22b142051eb0768775de6d63a1c89c96ea0&=&format=webp&quality=lossless&width=1053&height=575" alt="Grille-pain vintage">
+                <div class="modele-info">
+                    <h3>Le "Billy the Kid"</h3>
+                    <p>Compact, imprévisible, mais redoutablement efficace. Idéal pour les petits déjeuners en solitaire avant un duel.</p>
+                    <p class="prix">12$ / Jour</p>
+                </div>
+            </div>
+            <div class="modele">
+                <img src="https://media.discordapp.net/attachments/1479117517409747079/1481681136794079303/jane.png?ex=69b43297&is=69b2e117&hm=cde95b40c4c74218f692bf273625bbbf19f4d7e24869b3c08421a6a6e9211525&=&format=webp&quality=lossless&width=1053&height=575" alt="Grille-pain moderne chrome">
+                <div class="modele-info">
+                    <h3>Le "Calamity Jane"</h3>
+                    <p>Robuste et fiable, il accepte tous types de pains, même les plus récalcitrants. Avec option "éjection d'urgence".</p>
+                    <p class="prix">18$ / Jour</p>
+                </div>
+            </div>
+            <div class="modele">
+                <img src="https://media.discordapp.net/attachments/1479117517409747079/1481681137230151800/joe.png?ex=69b43297&is=69b2e117&hm=dcdb95c8d4957e7d2a384aad4ecbdef0e3c1279ed3b74998159aab64cf1e91f0&=&format=webp&quality=lossless&width=1053&height=575" alt="Vieux grille-pain rouillé">
+                <div class="modele-info">
+                    <h3>Le "Vieux Joe"</h3>
+                    <p>Un modèle de collection qui a vu passer des générations de pionniers. Fonctionne une fois sur deux, mais quel style !</p>
+                    <p class="prix">5$ / Jour (Risques et périls inclus)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="temoignages">
+        <h2>Ils Ont Grillé Avec Nous</h2>
+        <div class="temoignage">
+            "Le 'Billy the Kid' a changé ma vie. Mes tartines sont prêtes si vite que je peux me consacrer pleinement à ma passion : compter les brins d'herbe."
+            <span class="temoignage-auteur">- Lucky Luke, client satisfait (et rapide)</span>
+        </div>
+        <div class="temoignage">
+            "Je pensais que la livraison par pigeon était une blague. J'ai reçu mon grille-pain en 12 heures, livré par un pigeon nommé 'Flash'. Un service impeccable !"
+            <span class="temoignage-auteur">- Une fermière anonyme du Kansas</span>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Prêt à Rejoindre l'Aventure ?</h2>
+        <p>Envoyez-nous un signal de fumée ou contactez notre Shérif de la Tartine par e-mail :</p>
+        <p><strong>contact@westerntoaster.wild</strong></p>
+        <p>Ou passez nous voir au Saloon du Grille-Pain, 128 Rue de la Tartine Brûlée, Deadwood.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 1885 Western Toaster Rental. Tous droits réservés (sauf pour les Dalton).</p>
+    </footer>
+
+</body>
+</html>
