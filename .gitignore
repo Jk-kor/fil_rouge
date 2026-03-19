@@ -5,6 +5,7 @@ db_connect.php
 .env
 *.ini
 
+
 # ----------------------------------------------------------------------
 # 2. 운영체제(OS) 찌꺼기 파일 (macOS, Windows)
 # ----------------------------------------------------------------------
@@ -33,3 +34,8 @@ Thumbs.db
 *.log
 /logs/
 /cache/
+
+
+/var/www/html/classes/Database.php
+/classes/Database.php
+Database.php
