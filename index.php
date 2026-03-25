@@ -1,8 +1,6 @@
 <?php
 // Fichier : index.php
-require_once('db_connect.php'); // 기존 DB 접속 (테스트용 메시지 출력 코드는 지우세요!)
-require_once('classes/Database.php'); // 추가!
-require_once('classes/Bien.php');     // 추가!
+require_once 'config/init.php';
 
 $biens = Bien::getAll(6); // 6 dernières annonces
 ?>

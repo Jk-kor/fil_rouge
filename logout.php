@@ -1,4 +1,5 @@
 <?php
+// Fichier : logout.php
 require_once 'config/init.php';
 Utilisateur::logout();
 header('Location: index.php');

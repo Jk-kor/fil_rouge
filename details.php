@@ -1,4 +1,5 @@
 <?php
+// Fichier : details.php
 require_once 'config/init.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -13,15 +14,23 @@ if (!$bien) {
     exit;
 }
 
-// Incrémenter le compteur de vues (pour les stats)
+// Incrémenter le compteur de vues
 $bien->incrementVue();
 
-// Enregistrer dans les logs (si utilisateur connecté ou non)
+// Enregistrer dans les logs
 $pdo = Database::getInstance();
 $stmt = $pdo->prepare("INSERT INTO logs_consultation (bien_id, utilisateur_id) VALUES (?, ?)");
 $stmt->execute([$id, $_SESSION['user_id'] ?? null]);
 
 $photos = $bien->getPhotos();
+
+// Vérifier si l'utilisateur connecté a ce bien en favori
+$estFavori = false;
+if (Utilisateur::isLogged()) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM favoris WHERE utilisateur_id = ? AND bien_id = ?");
+    $stmt->execute([$_SESSION['user_id'], $id]);
+    $estFavori = $stmt->fetchColumn() > 0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -84,11 +93,14 @@ $photos = $bien->getPhotos();
                     $user = Utilisateur::getCurrentUser();
                 ?>
                     <div class="mt-4">
-                        <?php if ($user->hasRole('client') || $user->hasRole('commercial') || $user->hasRole('admin')): ?>
-                            <a href="ajouter_favoris.php?id=<?= $bien->getId() ?>" class="btn btn-outline-danger">❤️ Ajouter aux favoris</a>
-                            <?php if ($bien->getStatut() === 'disponible'): ?>
-                                <a href="paiement.php?id=<?= $bien->getId() ?>" class="btn btn-success">💰 Acheter</a>
-                            <?php endif; ?>
+                        <?php if ($estFavori): ?>
+                            <a href="ajouter_favoris.php?action=remove&id=<?= $id ?>" class="btn btn-outline-danger">❤️ Retirer des favoris</a>
+                        <?php else: ?>
+                            <a href="ajouter_favoris.php?action=add&id=<?= $id ?>" class="btn btn-outline-danger">❤️ Ajouter aux favoris</a>
+                        <?php endif; ?>
+                        
+                        <?php if ($bien->getStatut() === 'disponible' && ($user->hasRole('client') || $user->hasRole('commercial') || $user->hasRole('admin'))): ?>
+                            <a href="paiement.php?id=<?= $id ?>" class="btn btn-success">💰 Acheter (simulation)</a>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>

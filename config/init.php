@@ -1,9 +1,10 @@
 <?php
+// Fichier : config/init.php
 session_start();
 
-// Autoloader simple
 spl_autoload_register(function ($class) {
-    $file = __DIR__ . '/../classes/' . $class . '.php';
+    $baseDir = __DIR__ . '/../classes/';
+    $file = $baseDir . $class . '.php';
     if (file_exists($file)) {
         require_once $file;
     }
