@@ -23,17 +23,12 @@ $error = '';
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Simuler un paiement (aucune validation réelle)
     $pdo = Database::getInstance();
     try {
-        // Enregistrer l'achat
         $stmt = $pdo->prepare("INSERT INTO achats (utilisateur_id, bien_id, montant) VALUES (?, ?, ?)");
         $stmt->execute([$_SESSION['user_id'], $bien_id, $bien->getPrix()]);
-        
-        // Mettre à jour le statut du bien
         $bien->setStatut('vendu');
         $bien->save();
-        
         $success = true;
     } catch (Exception $e) {
         $error = "Une erreur est survenue lors de la simulation d'achat.";
@@ -45,55 +40,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paiement simulé</title>
+    <title>Simulation d'achat - ImmoApp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
-    <div class="container mt-5" style="max-width: 600px;">
-        <?php if ($success): ?>
-            <div class="alert alert-success">
-                <h4 class="alert-heading">Félicitations !</h4>
-                <p>Votre achat a bien été simulé. Vous pouvez consulter votre historique dans votre espace client.</p>
-                <hr>
-                <a href="client/dashboard.php" class="btn btn-primary">Voir mes achats</a>
-                <a href="details.php?id=<?= $bien_id ?>" class="btn btn-outline-secondary">Retour à l'annonce</a>
-            </div>
-        <?php else: ?>
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0">Simulation d'achat</h4>
+<?php include 'includes/header.php'; ?>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <?php if ($success): ?>
+                <div class="card border-0 shadow-lg rounded-4 text-center p-4">
+                    <i class="fas fa-check-circle fa-5x text-success mb-3"></i>
+                    <h2 class="mb-3">Achat simulé avec succès !</h2>
+                    <p class="text-muted">Vous avez acquis <strong><?= htmlspecialchars($bien->getTitre()) ?></strong> pour <strong><?= number_format($bien->getPrix(), 0, ',', ' ') ?> €</strong>.</p>
+                    <p>Ceci est une simulation, aucune transaction réelle n’a eu lieu.</p>
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+                        <a href="client/dashboard.php" class="btn btn-primary rounded-pill px-4">Voir mes achats</a>
+                        <a href="details.php?id=<?= $bien_id ?>" class="btn btn-outline-secondary rounded-pill px-4">Retour à l'annonce</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5><?= htmlspecialchars($bien->getTitre()) ?></h5>
-                    <p class="h3 text-primary"><?= number_format($bien->getPrix(), 0, ',', ' ') ?> €</p>
-                    <hr>
-                    <p>Ceci est une simulation de paiement. Aucune transaction réelle n'aura lieu.</p>
-                    <?php if ($error): ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
-                    <?php endif; ?>
-                    <form method="post">
-                        <div class="mb-3">
-                            <label for="card" class="form-label">Numéro de carte (simulé)</label>
-                            <input type="text" class="form-control" id="card" value="4242 4242 4242 4242" readonly>
+            <?php else: ?>
+                <div class="card border-0 shadow-lg rounded-4">
+                    <div class="card-header bg-primary text-white rounded-top-4 py-3">
+                        <h4 class="mb-0"><i class="fas fa-credit-card me-2"></i>Simulation d'achat</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-home fa-3x text-primary mb-2"></i>
+                            <h5><?= htmlspecialchars($bien->getTitre()) ?></h5>
+                            <p class="h3 text-primary fw-bold"><?= number_format($bien->getPrix(), 0, ',', ' ') ?> €</p>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="exp" class="form-label">Date d'expiration</label>
-                                <input type="text" class="form-control" id="exp" value="12/26" readonly>
+                        <hr>
+                        <p class="text-muted">Ceci est une simulation. Aucune transaction réelle.</p>
+                        <?php if ($error): ?>
+                            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                        <?php endif; ?>
+                        <form method="post">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Numéro de carte (simulé)</label>
+                                <input type="text" class="form-control rounded-pill" value="4242 4242 4242 4242" readonly>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cvv" value="123" readonly>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Date d'expiration</label>
+                                    <input type="text" class="form-control rounded-pill" value="12/26" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">CVV</label>
+                                    <input type="text" class="form-control rounded-pill" value="123" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-lg w-100">Confirmer l'achat simulé</button>
-                    </form>
+                            <button type="submit" class="btn btn-success btn-lg w-100 rounded-pill mt-4">Confirmer l'achat simulé</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
-    <?php include 'includes/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+
+<?php include 'includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
